@@ -9,27 +9,26 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const root = p => path.join(__dirname, '..', p);
 
 const setProxy = () => {
-	const list = ['UPay']
-	
-	const proxy = list.reduce((p, k) => {
+  const list = ['UPay']
+
+  const proxy = list.reduce((p, k) => {
 	p[`/${k}/*`] = {
 	  target: 'https://qyf1card1.m.yunhuiyuan.cn',
 	  changeOrigin: true,
 	  secure: false,
 	}
 	return p
-	}, {});
+  }, {});
 
-	['api', 'Business'].forEach(key => {
-		proxy[`/${key}/*`] = {
-			target: 'https://qyf1card1.h5.yunhuiyuan.cn/',
-			changeOrigin: true,
-			secure: false,
-		}
-	});
-	
+  ['api', 'Business'].forEach(key => {
+	proxy[`/${key}/*`] = {
+	  target: 'https://qyf1card1.h5.yunhuiyuan.cn/',
+	  changeOrigin: true,
+	  secure: false,
+	}
+  });
 
-	return proxy
+  return proxy
 }
 
 module.exports = merge(base, {
@@ -54,7 +53,7 @@ module.exports = merge(base, {
 	compress: true,
 	hot: true,
 	port: 7780,
-	host: 'localhost',
+	host: '0.0.0.0',
 	publicPath: '/',
 	disableHostCheck: true,
 	proxy: setProxy(),

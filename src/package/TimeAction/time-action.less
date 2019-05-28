@@ -1,0 +1,140 @@
+@import '../styles/variables.less';
+
+.time-action {
+  .time-body {
+    height: 480px;
+    border-radius: 10px 10px 0 0;
+    background-color: #fff;
+
+    header {
+      p {
+        margin: 0;
+        color: #333;
+        font-size: 16px;
+        padding-left: 20px;
+        line-height: 40px;
+        font-weight: bold;
+      }
+
+    }
+
+    p {
+      padding: 0;
+      margin: 0;
+      .ellipsis;
+      color: #999;
+      font-size: 14px;
+    }
+
+    section {
+      height: 400px;
+      overflow: hidden;
+
+      .scroll-slider {
+        min-height: 301px;
+      }
+    }
+  }
+}
+
+// region row-picker
+.year-picker {
+  margin-bottom: 10px;
+}
+
+.month-picker {
+  margin-bottom: 18px;
+}
+
+.year-item {
+  padding: 3px 10px;
+  margin: 0 10px;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 20px;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.month-item {
+  padding: 5px 15px;
+  margin: 0 10px;
+  background-color: #f7f7f7;
+  border: 1px solid transparent;
+}
+
+// endregion
+
+// region column picker
+.picker-wrap {
+  border-top: 1px solid #e5e5e5;
+  height: 300px;
+  display: flex;
+
+  .date-picker {
+    flex-basis: 100px;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  .span-picker {
+    flex-basis: 200px;
+    flex-grow: 2;
+    flex-shrink: 1;
+  }
+}
+
+.date-item {
+  text-align: center;
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.span-item {
+  padding: 10px;
+
+  .span-box {
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+  }
+}
+
+// endregion
+
+// region picke status
+.picked {
+  .year-item {
+    color: #419dfe;
+
+    &:after {
+      background-color: #419dfe;
+    }
+  }
+
+  .month-item {
+    border-color: #419dfe;
+  }
+
+  .date-item {
+    background-color: #fff;
+    color: #419dfe;
+  }
+
+  .span-item .span-box {
+    border-color: #419dfe;
+    color: #419dfe;
+  }
+}
+
+.disabled {
+  color: #999;
+}
+
+// endregion
