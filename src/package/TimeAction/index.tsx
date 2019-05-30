@@ -11,18 +11,46 @@ const {Component} = preact
 const weekLabel = ['日', '一', '二', '三', '四', '五', '六']
 const fmtWeek = (date: dayjs.Dayjs) => '周' + weekLabel[date.day()]
 
+interface valueObject {
+    year: string,
+    month: string,
+    date: string,
+    span?: string,
+}
+
+// value: 2020/01/01 09:00-18:00
+function fmtValue(value: string): valueObject {
+    const result = {
+        year: '',
+        month: '',
+        date: '',
+        span: ''
+    }
+    if (!value) return result
+    const dateStr = value.split(' ')[0]
+    const span = value.split(' ')[1] || ''
+    const date = dayjs(dateStr)
+    result.year = date.year() + ''
+    result.month = date.month() + 1 + ''
+    result.date = date.date() + ''
+    result.span = span
+    return result
+}
+
 export interface TimeActionProps {
     start: dayjs.Dayjs,
     end: dayjs.Dayjs,
-    value: dayjs.ConfigType,
+    value: string,
     getTimeSpan?: Function,
     yearCheck?: Function,
     monthCheck?: Function,
     dateCheck?: Function,
     resolve: Function,
+    format: string,
     title?: string,
 }
 
+// region 各子选项模板
 function yearTemplate(item: Item): preact.ComponentChild {
     return (
         <div class="year-item">{item.label}</div>
@@ -49,8 +77,10 @@ function spanTemplate(item: Item): preact.ComponentChild {
     )
 }
 
+// endregion
+
 export default class Index extends Component<TimeActionProps, any> {
-    private _action: any;
+    private _action: Action;
 
     state: {
         times: TimeTree,
@@ -63,14 +93,19 @@ export default class Index extends Component<TimeActionProps, any> {
 
     constructor(props: TimeActionProps) {
         super(props)
-        const {start, end, yearCheck, monthCheck, dateCheck} = props
-        const times = TimeGenerator({start, end, yearCheck, monthCheck, dateCheck})
+        const {start, end, yearCheck, monthCheck, dateCheck, value} = props
+        console.log('out value', value, fmtValue(value))
+        const initial = fmtValue(value)
+        const span = initial.span
+
+        const times = TimeGenerator({start, end, yearCheck, monthCheck, dateCheck, initial})
         this.setState({
             times,
             year: times.year,
             month: times.month,
             date: times.date,
-            spanList: []
+            spanList: [],
+            span
         })
         this.createSpan()
         console.log('time tree ', times)
@@ -78,6 +113,20 @@ export default class Index extends Component<TimeActionProps, any> {
 
     pickItem = (value: object) => {
         this.props.resolve({success: true, data: value});
+        this.close();
+    }
+
+    confirm = () => {
+        const {year, month, date, span, spanList} = this.state
+        let dateStr = dayjs(`${year}/${month}/${date}`).format(this.props.format)
+        if (spanList.length) {
+            if (!span) {
+                console.log('请选择时段!')
+                return
+            }
+            dateStr += ` ${span}`
+        }
+        this.props.resolve({success: true, data: dateStr});
         this.close();
     }
 
@@ -97,7 +146,9 @@ export default class Index extends Component<TimeActionProps, any> {
         this.setState({
             year: item.value,
         })
-        this.createSpan()
+        // 2020/02/29 切换到 2021年也需要触发每月最后一天检查
+        this.pickMonth(this.state.times.monthList.find(it => it.value === this.state.month))
+        // this.createSpan()
     }
     pickMonth = (item: Item) => {
         let {times, date} = this.state
@@ -105,8 +156,8 @@ export default class Index extends Component<TimeActionProps, any> {
         const lastDate = times.dateList.slice(-1)[0]
         // 当前所选日期大于可选最大值
         if (lastDate && (date > lastDate.value)) {
-            // date = lastDate.value
-            this.pickDate(lastDate)
+            date = lastDate.value
+            // this.pickDate(lastDate)
         }
         this.setState({
             month: item.value,
@@ -125,6 +176,8 @@ export default class Index extends Component<TimeActionProps, any> {
     }
 
     createSpan = () => {
+        const {year, month, date, span} = this.state
+        console.log(year, month, date, span)
         if (this.props.getTimeSpan) {
             this.setState({
                 spanList: this.props.getTimeSpan({...this.state})
@@ -190,6 +243,9 @@ export default class Index extends Component<TimeActionProps, any> {
                             }
                         </div>
                     </section>
+                    <footer>
+                        <button onClick={this.confirm}>确认</button>
+                    </footer>
                 </div>
             </Action>
         )

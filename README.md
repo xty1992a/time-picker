@@ -1,19 +1,24 @@
-### 截图上传组件
+### 时间选择器
 
 #### 简介
-基于[cropperjs](https://github.com/fengyuanchen/cropperjs)和[preact](https://preactjs.com/)的二次开发
-包内已包含这两个组件,gzip后16k.
+一个移动端时间选择组件,使用typescript+preact+dayjs开发
 umd格式,可`<script>`和import引入使用.
 
 
 #### 安装
-js: `npm i @redbuck/image-uploader`或`yarn add @redbuck/image-uploader`
+js: `npm i @redbuck/time-picker`或`yarn add @redbuck/time-picker`
 
-css: 位于`@redbuck/image-uploader/lib/imageUploader.css`
+css: 位于`@redbuck/time-picker/lib/time-picker.css`
 
 #### 使用
-```
-const uploader = new ImageUploader(options)
+```javascript
+    const start = dayjs('2017/01/01')
+    const end = dayjs('2020/01/01')
+    let time = ''
+	let result = await pickTime({
+	  start, end,
+	  value: time,
+	});
 ```
 
 options:

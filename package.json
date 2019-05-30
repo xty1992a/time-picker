@@ -1,6 +1,6 @@
 {
   "name": "@redbuck/time-picker",
-  "version": "0.0.5",
+  "version": "0.0.1",
   "description": "crop image and upload",
   "main": "lib/time-picker.js",
   "unpkg": "lib/time-picker.js",

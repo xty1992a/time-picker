@@ -5,18 +5,20 @@ import * as dayjs from 'dayjs'
 export interface PickTimeOptions {
     start: dayjs.Dayjs,
     end: dayjs.Dayjs,
-    value: dayjs.ConfigType,
+    value: string,
     getTimeSpan?: Function, // 获取时段
     yearCheck?: Function,
     monthCheck?: Function,
     dateCheck?: Function,
+    format?: string,
     title?: string,
 }
 
 const {h, render, Component} = preact
 
 const dftOptions = {
-    title: '配送时间'
+    title: '配送时间',
+    format: 'YYYY/MM/DD'
 }
 
 export default function (options: PickTimeOptions) {

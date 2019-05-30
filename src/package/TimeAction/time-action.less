@@ -1,8 +1,8 @@
 @import '../styles/variables.less';
 
+
 .time-action {
   .time-body {
-    height: 480px;
     border-radius: 10px 10px 0 0;
     background-color: #fff;
 
@@ -32,6 +32,19 @@
 
       .scroll-slider {
         min-height: 301px;
+      }
+    }
+
+    footer {
+      padding: 0 10px 10px;
+
+      button {
+        height: 44px;
+        background-color: @activeC;
+        color: #fff;
+        border: 0;
+        width: 100%;
+        border-radius: 4px;
       }
     }
   }
@@ -111,25 +124,25 @@
 // region picke status
 .picked {
   .year-item {
-    color: #419dfe;
+    color: @activeC;
 
     &:after {
-      background-color: #419dfe;
+      background-color: @activeC;
     }
   }
 
   .month-item {
-    border-color: #419dfe;
+    border-color: @activeC;
   }
 
   .date-item {
     background-color: #fff;
-    color: #419dfe;
+    color: @activeC;
   }
 
   .span-item .span-box {
-    border-color: #419dfe;
-    color: #419dfe;
+    border-color: @activeC;
+    color: @activeC;
   }
 }
 

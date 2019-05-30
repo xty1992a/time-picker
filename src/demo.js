@@ -11,7 +11,8 @@ const start = dayjs('2017/01/01');
 const end = dayjs('2022/01/01');
 
 (async () => {
-  let time = '';
+  let time = '2019/06/01';
+  let time2 = '';
   const today = dayjs()
   const tMonth = dayjs().startOf('month') // 本月第一天
   const tHour = dayjs().startOf('date') // 本日 0:00:00
@@ -64,21 +65,24 @@ const end = dayjs('2022/01/01');
 	});
 	if (result.success) {
 	  console.log(result.data)
-	  // time = result.data
-	  // document.getElementById('store').innerText = `你选择了${store}`
+	  time = result.data
+	  document.getElementById('time').innerText = time
 	}
   }
 
   btn2.addEventListener('click', async function f() {
 	let result = await pickTime({
-	  start, end, value: time,
+	  start, end, value: time2,
 	})
+	if (result.success) {
+	  time2 = result.data
+	  document.getElementById('time2').innerText = time2
+	}
   })
 
   await sleep(1000)
-  // btn.click()
+  btn.click()
 
-  dom.lockScroll(document.getElementById('box'))
 })();
 
 

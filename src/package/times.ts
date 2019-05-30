@@ -4,6 +4,12 @@ interface isLarger {
     (a: any, b: any): boolean
 }
 
+interface InitialValue {
+    year: string,
+    month: string,
+    date: string,
+}
+
 const order = (a: any, b: any, check: isLarger = (a: number, b: number) => a > b): [any, any] => check(a, b) ? [b, a] : [a, b]
 
 interface TimeTreeProps {
@@ -12,6 +18,7 @@ interface TimeTreeProps {
     yearCheck?: Function,
     dateCheck?: Function,
     monthCheck?: Function,
+    initial: InitialValue
 }
 
 const dftOptions: TimeTreeProps = {
@@ -20,7 +27,14 @@ const dftOptions: TimeTreeProps = {
     yearCheck: (date: dayjs.Dayjs) => false,
     dateCheck: (date: dayjs.Dayjs) => false,
     monthCheck: (date: dayjs.Dayjs) => false,
+    initial: {
+        year: '',
+        month: '',
+        date: '',
+    }
 }
+
+type valueType = 'year' | 'month' | 'date'
 
 interface TimeItem {
     label: string,
@@ -37,7 +51,7 @@ export class TimeTree {
     private monthCheck: Function
     private dateCheck: Function
     list: TimeItem[]
-
+    initial: InitialValue
     year: number
     month: number
     date: number
@@ -96,15 +110,29 @@ export class TimeTree {
     }
 
     autoPick = () => {
-        const firstYear = this.yearList.find(it => !it.disabled)
-        if (!firstYear) return
-        this.year = firstYear.value
-        const firstMonth = this.monthList.find(it => !it.disabled)
-        if (!firstMonth) return
-        this.month = firstMonth.value
-        const firstDate = this.dateList.find(it => !it.disabled)
-        if (!firstDate) return
-        this.date = firstDate.value
+        if (this.pick('year', this.yearList)) {
+            if (this.pick('month', this.monthList)) {
+                this.pick('date', this.dateList)
+                console.log('picked ', this.year, this.month, this.date)
+            }
+        }
+    }
+
+    pick = (prop: valueType, list: TimeItem[]) => {
+        console.log('pick ', prop)
+        const value = this.initial[prop]
+        // 检查initial的值能否存在且可选择,不能,则自动选择第一个可选值
+        if (value) {
+            const item = list.find(it => it.value === +value)
+            if (item && !item.disabled) {
+                this[prop] = +value
+                return true
+            }
+        }
+        const first = list.find(it => !it.disabled)
+        if (!first) return false
+        this[prop] = +first.value
+        return true
     }
 }
 
