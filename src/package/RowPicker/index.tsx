@@ -1,6 +1,7 @@
 import * as preact from 'preact'
 import "./index.less"
 import {TweenManager} from '../utils/index'
+import * as dayjs from "dayjs";
 
 const SCREEN_WIDTH = document.documentElement.clientWidth
 
@@ -9,7 +10,8 @@ const {h, render, Component} = preact
 export interface Item {
     label: string,
     value: any,
-    disabled?: boolean
+    disabled?: boolean,
+    date?: dayjs.Dayjs
 }
 
 interface RowPickerProps {

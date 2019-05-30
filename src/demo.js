@@ -4,7 +4,8 @@ import pickTime from './package/main'
 import * as dayjs from 'dayjs';
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
-const fmt = d => d.format('YYYY-MM-DD HH:mm:ss')
+const fmt = d => d.format('YYYY-MM-DD HH:mm:ss');
+import * as dom from './package/utils/dom'
 
 const start = dayjs('2017/01/01');
 const end = dayjs('2022/01/01');
@@ -15,6 +16,7 @@ const end = dayjs('2022/01/01');
   const tMonth = dayjs().startOf('month') // 本月第一天
   const tHour = dayjs().startOf('date') // 本日 0:00:00
   const btn = document.getElementById('btn');
+  const btn2 = document.getElementById('btn2');
 
   // 选项校验函数,返回值作为 item的disabled
   // 今年之前的年份不可选
@@ -67,8 +69,16 @@ const end = dayjs('2022/01/01');
 	}
   }
 
+  btn2.addEventListener('click', async function f() {
+	let result = await pickTime({
+	  start, end, value: time,
+	})
+  })
+
   await sleep(1000)
-  btn.click()
+  // btn.click()
+
+  dom.lockScroll(document.getElementById('box'))
 })();
 
 

@@ -1,6 +1,7 @@
 import * as preact from 'preact'
 import "./index.less"
 import {TweenManager} from "../utils";
+import {lockScroll} from "../utils/dom";
 
 const {h, render, Component} = preact
 
@@ -73,6 +74,7 @@ export default class RowPicker extends Component<RowPickerProps, any> {
 
     componentDidMount() {
         this.autoScroll()
+        lockScroll(this.base)
     }
 
     componentDidUpdate() {

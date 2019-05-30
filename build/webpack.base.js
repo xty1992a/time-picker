@@ -7,6 +7,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const baseConfig = {
   resolve: {
 	extensions: ['.js', '.ts', '.tsx'],
+	alias: {
+	  '@': path.resolve(__dirname, '../src'),
+	},
   },
   output: {
 	path: path.resolve(__dirname, '../lib'),

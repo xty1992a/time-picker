@@ -106,12 +106,11 @@ export class TimeTree {
         if (!firstDate) return
         this.date = firstDate.value
     }
-
 }
 
 export default function TimeGenerator(options: TimeTreeProps): TimeTree {
-    if (!options.yearCheck) delete options.yearCheck
-    if (!options.dateCheck) delete options.dateCheck
-    if (!options.monthCheck) delete options.monthCheck
+    if (typeof options.yearCheck !== 'function') delete options.yearCheck
+    if (typeof options.dateCheck !== 'function') delete options.dateCheck
+    if (typeof options.monthCheck !== 'function') delete options.monthCheck
     return new TimeTree({...dftOptions, ...options})
 }

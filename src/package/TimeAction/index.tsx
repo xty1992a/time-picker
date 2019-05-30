@@ -1,14 +1,15 @@
 import * as preact from 'preact'
 import Action from '../Action/index'
-import Scroller from '../Scroller/index'
 import RowPicker, {Item} from '../RowPicker/index'
 import Picker from '../Picker/index'
 import './time-action.less'
 import TimeGenerator, {TimeTree} from '../times'
 import * as dayjs from "dayjs";
-import times from "../times";
 
 const {Component} = preact
+
+const weekLabel = ['日', '一', '二', '三', '四', '五', '六']
+const fmtWeek = (date: dayjs.Dayjs) => '周' + weekLabel[date.day()]
 
 export interface TimeActionProps {
     start: dayjs.Dayjs,
@@ -36,7 +37,7 @@ function monthTemplate(item: Item): preact.ComponentChild {
 
 function dateTemplate(item: Item): preact.ComponentChild {
     return (
-        <div className="date-item">{item.label}</div>
+        <div className="date-item">{item.date.format('M月D日') + `[${fmtWeek(item.date)}]`}</div>
     )
 }
 
@@ -68,7 +69,8 @@ export default class Index extends Component<TimeActionProps, any> {
             times,
             year: times.year,
             month: times.month,
-            date: times.date
+            date: times.date,
+            spanList: []
         })
         this.createSpan()
         console.log('time tree ', times)
