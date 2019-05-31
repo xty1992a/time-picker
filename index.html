@@ -3,8 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <script type="text/javascript" src="https://unpkg.com/eruda@1.5.5/eruda.js"></script>
+  <script type="text/javascript">
+	eruda.init()
+  </script>
   <title>Title</title>
 </head>
+<style>
+
+  #box {
+    height: 300px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .box-inner {
+    height: 2000px;
+    background: repeating-linear-gradient(to bottom, #fff 0, #fff 10px, #000 10px, #000 20px);
+  }
+</style>
 <body style="height: 1000px;">
 <button id="btn">按钮</button>
 <p>
@@ -16,6 +33,11 @@
   <span>您选择的时间是: </span>
   <span id="time2"></span>
 </p>
-<div id="store"></div>
+
+<button id="btn3">地址</button>
+<p>
+  <span>您选择的地址是: </span>
+  <span id="address"></span>
+</p>
 </body>
 </html>

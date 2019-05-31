@@ -1,0 +1,47 @@
+@import "../styles/variables";
+
+.address-action {
+  .address-body {
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+
+    header {
+      line-height: 40px;
+      text-align: center;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    section {
+      .address-item {
+        border-bottom: 1px solid #e5e5e5;
+        padding: 15px 10px;
+        display: flex;
+
+        .label {
+          width: 80px;
+          font-size: 14px;
+        }
+
+        input {
+          border: 0;
+        }
+
+        select {
+          -webkit-appearance: none;
+          width: 70px;
+          border: 0;
+        }
+      }
+    }
+
+    footer {
+      [role="button"] {
+        height: 44px;
+        background-color: @activeC;
+        color: #fff;
+        width: 100%;
+        border: 0;
+      }
+    }
+  }
+}

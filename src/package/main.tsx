@@ -1,6 +1,21 @@
 import * as preact from 'preact'
 import TimeAction, {TimeActionProps} from "./TimeAction/index";
 import * as dayjs from 'dayjs'
+import {getPosition, Result} from './utils/getPosition'
+
+console.log('getPosition')
+getPosition()
+    .then((res: Result) => {
+        console.log('get position ', res)
+        if (res.success) {
+            const div = document.createElement('div')
+            div.innerText = `
+            您的位置: 经度: ${res.data.latitude}, 纬度: ${res.data.longitude}
+            `
+            document.body.appendChild(div)
+
+        }
+    })
 
 export interface PickTimeOptions {
     start: dayjs.Dayjs,

@@ -1,11 +1,15 @@
 // 未编译API,需要引入polyfill
 import 'core-js'
 import pickTime from './package/main'
+import addAddress from './package/AdressAction'
 import * as dayjs from 'dayjs';
+import * as API from './dev/api'
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 const fmt = d => d.format('YYYY-MM-DD HH:mm:ss');
 import * as dom from './package/utils/dom'
+import {lockScroll} from './package/utils/dom';
+import './package/styles/index.less'
 
 const start = dayjs('2017/01/01');
 const end = dayjs('2022/01/01');
@@ -18,6 +22,8 @@ const end = dayjs('2022/01/01');
   const tHour = dayjs().startOf('date') // 本日 0:00:00
   const btn = document.getElementById('btn');
   const btn2 = document.getElementById('btn2');
+  const region = await API.getRegion()
+  console.log(region)
 
   // 选项校验函数,返回值作为 item的disabled
   // 今年之前的年份不可选
@@ -80,9 +86,36 @@ const end = dayjs('2022/01/01');
 	}
   })
 
-  await sleep(1000)
-  btn.click()
+  document.getElementById('btn3')
+	  .addEventListener('click', async function () {
+		if (!region.success) return
+		let result = await addAddress({
+		  name: '信息',
+		  number: '18602098232',
+		  provinceID: '14',
+		  cityID: '130',
+		  countryID: '1310',
+		  address: '贡江镇红旗大道',
+		  region: region.data,
+		})
 
+		console.log(result)
+		if (result.success) {
+		  const div = document.getElementById('address')
+		  div.innerText = `
+		  电话: ${result.data.number} 
+		  地址: ${result.data.address} 
+		  省ID: ${result.data.provinceID} 
+		  市ID: ${result.data.cityID} 
+		  区ID: ${result.data.countryID} 
+		  `
+
+		}
+	  })
+
+  await sleep(1000)
+  // btn.click()
+  document.getElementById('btn3').click()
 })();
 
 

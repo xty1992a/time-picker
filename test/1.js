@@ -1,49 +1,29 @@
-const dayjs = require('dayjs');
+const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
-const year = {
-  label: '2017年',
-  value: dayjs(),
-  // children:
+let count = 0
+const request = () => new Promise(resolve => setTimeout(() => resolve({
+  success: ++count === 10,
+})))
+
+async function loop(maxRequestCount = 5) {
+  return new Promise(async resolve => {
+	let requestCount = 0
+	let result = {success: false}
+
+	while (!result.success) {
+	  requestCount++
+	  result = await request()
+	  console.log(result, count)
+	  if (!result.success && requestCount > maxRequestCount) {
+		return resolve({success: false, message: 'request count out !'})
+	  }
+	  await sleep(1000)
+	}
+	resolve({success: true, message: 'request success'})
+  })
 }
 
-const tree = [
-  {
-    label: '2017年',
-	value: 2017,
-	children: [
-	  {
-	    label: '1月',
-		// value:
-	  }
-	]
-  }
-]
-
-
-function downImage(src, name, MIME, callback) {
-  name = name ||  Date.now()
-  MIME = MIME || 'png'
-	let img = new Image()
-	img.setAttribute('crossOrigin', 'Anonymous')
-	img.src = src
-	let cvs = document.createElement('canvas')
-	let ctx = cvs.getContext('2d')
-	img.addEventListener('load', function ()  {
-	  cvs.width = img.width
-	  cvs.height = img.height
-	  ctx.drawImage(img, 0, 0)
-	  try {
-		let url = cvs.toDataURL('image/' + MIME)
-		const link = document.createElement('a')
-		link.href = url
-		link.download = `${name}.${MIME}`
-		link.click()
-		callback(true)
-	  } catch (e) {
-		callback(false)
-	  }
+loop(10)
+	.then(res => {
+	  console.log(res)
 	})
-	img.addEventListener('error', function () {
-	  callback(false)
-	})
-}
