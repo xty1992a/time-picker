@@ -1,0 +1,273 @@
+.action {
+  z-index: 100;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  left: 0;
+}
+.action * {
+  box-sizing: border-box;
+}
+.action.action__show .action-model {
+  opacity: 1;
+}
+.action.action__show .action-bottom {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.action.action__show .action-center {
+  -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+}
+.action.action__show .action-right {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.action .action-model {
+  opacity: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+.action .mask {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.action .action-bottom {
+  -webkit-transform: translate3d(0, 100%, 0);
+          transform: translate3d(0, 100%, 0);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.action .action-center {
+  position: absolute;
+  -webkit-transform: translate3d(-50%, -70%, 0);
+          transform: translate3d(-50%, -70%, 0);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+  top: 50%;
+  left: 50%;
+}
+.action .action-right {
+  position: absolute;
+  -webkit-transform: translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+  top: 0;
+  left: 0;
+}
+
+.address-action .address-body {
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+}
+.address-action .address-body header {
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.address-action .address-body section .address-item {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 15px 10px;
+  display: -webkit-box;
+  display: flex;
+}
+.address-action .address-body section .address-item .label {
+  width: 80px;
+  font-size: 14px;
+}
+.address-action .address-body section .address-item .area {
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+.address-action .address-body section .address-item input {
+  border: 0;
+}
+.address-action .address-body section .address-item [name="address"] {
+  -webkit-box-flex: 1;
+          flex: 1;
+}
+.address-action .address-body section .address-item select {
+  -webkit-appearance: none;
+  width: 70px;
+  border: 0;
+}
+.address-action .address-body footer [role="button"] {
+  height: 44px;
+  background-color: #419dfe;
+  color: #fff;
+  width: 100%;
+  border: 0;
+}
+
+.address-picker-action .address-body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+}
+.address-picker-action .address-body header {
+  background-color: #fff;
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.address-picker-action .address-body header .btn-wrap {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  padding: 10px;
+}
+.address-picker-action .address-body header .btn-wrap button {
+  border: 0;
+  background-color: #fff;
+  height: 28px;
+  width: 60px;
+  border-radius: 4px;
+}
+.address-picker-action .address-body header .btn-wrap .btn-confirm {
+  background-color: #419dfe;
+  color: #fff;
+}
+.address-picker-action .address-body header .search {
+  margin-left: -15px;
+  -webkit-box-flex: 1;
+          flex: 1;
+  padding: 0 15px;
+}
+.address-picker-action .address-body header .search span {
+  line-height: 30px;
+  position: absolute;
+  right: 10px;
+  text-align: center;
+  top: 9px;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+}
+.address-picker-action .address-body header input {
+  height: 30px;
+  width: 100%;
+  background-color: #f7f7f7;
+  border: 0;
+  padding: 0 10px;
+  text-align: center;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.address-picker-action .address-body header input:focus {
+  text-align: left;
+  width: calc(100% - 20px);
+  position: absolute;
+  top: 9px;
+  left: 10px;
+}
+.address-picker-action .address-body header input:focus + span {
+  opacity: 1;
+}
+.address-picker-action .address-body section {
+  -webkit-box-flex: 1;
+          flex: 1;
+}
+.address-picker-action .address-body section .map {
+  height: 50%;
+  position: relative;
+}
+.address-picker-action .address-body section .map:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 10;
+}
+.address-picker-action .address-body section .picker-wrap {
+  width: 100%;
+  height: 50%;
+}
+.address-picker-action .address-body section .picker-wrap .point-empty {
+  text-align: center;
+  width: 100%;
+  padding-top: 20%;
+  color: #999;
+}
+
+.picker {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.picker .picker-list {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+.picker .picker-list .picker-item {
+  position: relative;
+  list-style: none;
+}
+
+.point-picker {
+  padding-left: 10px;
+}
+.point-picker .point-item {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 5px 10px 8px;
+  position: relative;
+}
+.point-picker .point-item p {
+  margin: 0;
+}
+.point-picker .point-item .title {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 3px;
+}
+.point-picker .point-item .address-str {
+  color: #999;
+  font-size: 12px;
+}
+.point-picker .point-item .iconfont {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  color: #4080E8;
+  opacity: 0;
+}
+.point-picker .picked .iconfont {
+  opacity: 1;
+}
+

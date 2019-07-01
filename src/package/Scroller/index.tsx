@@ -5,8 +5,8 @@ import Transform from 'css3Transform';
 const {Component} = preact;
 
 interface ScrollerProps {
-    scrollEnd: Function,
-    onReachBottom: Function,
+    scrollEnd?: Function,
+    onReachBottom?: Function,
     delay: number,
     min: number
 }

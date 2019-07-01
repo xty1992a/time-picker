@@ -41,6 +41,7 @@ export interface TimeActionProps {
     start: dayjs.Dayjs,
     end: dayjs.Dayjs,
     value: string,
+    toast: Function,
     getTimeSpan?: Function,
     yearCheck?: Function,
     monthCheck?: Function,
@@ -121,7 +122,7 @@ export default class Index extends Component<TimeActionProps, any> {
         let dateStr = dayjs(`${year}/${month}/${date}`).format(this.props.format)
         if (spanList.length) {
             if (!span) {
-                console.log('请选择时段!')
+                this.props.toast('请选择时段!')
                 return
             }
             dateStr += ` ${span}`

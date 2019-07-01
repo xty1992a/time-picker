@@ -56,13 +56,13 @@ export class TimeTree {
     month: number
     date: number
 
-    get yearList()/*: TimeItem[]*/ {
+    get yearList(): TimeItem[] {
         const result: TimeItem[] = []
 
         let {start, end} = this
         let [s, e]: [dayjs.Dayjs, dayjs.Dayjs] = order(start, end, (a, b) => a.year() > b.year())
 
-        while (s.isBefore(e.add(1, 'year'))) {
+        while (s.isBefore(e.add(1, 'year').startOf('year'))) {
             result.push({
                 value: s.year(),
                 date: s,

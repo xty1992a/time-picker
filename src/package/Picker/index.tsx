@@ -1,7 +1,8 @@
 import * as preact from 'preact'
 import "./index.less"
 import {TweenManager} from "../utils";
-import {lockScroll} from "../utils/dom";
+import Scroller from '../utils/BScroller'
+// import {lockScroll} from "../utils/dom";
 
 const {h, render, Component} = preact
 
@@ -21,6 +22,9 @@ interface RowPickerProps {
 }
 
 export default class RowPicker extends Component<RowPickerProps, any> {
+    private _scroller: Scroller
+    onScroll: boolean
+
     constructor(props: RowPickerProps) {
         super(props)
     }
@@ -31,17 +35,17 @@ export default class RowPicker extends Component<RowPickerProps, any> {
     }
 
     onTouchMove = (e: Event): void => {
-        e.stopPropagation()
+        // e.stopPropagation()
     }
 
     pickItem = (item: Item) => (e: Event) => {
-        if (item.disabled) return
+        if (item.disabled || this.onScroll) return
         this.props.onPickItem(item)
     }
 
     autoScroll = () => {
         let index = this.props.options.findIndex(it => it.value === this.props.value)
-        let items = Array.from(this.base.children[0].children)
+        let items = Array.from(this.base.getElementsByClassName('picker-list')[0].children)
         items[index] && this.scrollToElement(items[index])
     }
 
@@ -50,36 +54,52 @@ export default class RowPicker extends Component<RowPickerProps, any> {
         if (!pickedItem) return
         if (pickedItem.disabled) {
             const first = this.props.options.find(it => !it.disabled)
-            first && this.props.onPickItem(first)
+            if (first) {
+                this.props.onPickItem(first)
+            }
+            else {
+                this.props.onPickItem({value: '', label: ''})
+            }
         }
     }
     scrollToElement = (el: any) => {
-        // @types-ignore
-        // console.log('should scroll to ', el, el.offsetTop)
-        let offset = el.offsetTop - this.base.clientHeight / 2 + el.clientHeight / 2
-        this.scrollTo(offset)
+        this.onScroll = true
+        const scroller = this._scroller.scroller
+        if (!scroller) {
+            this.onScroll = false
+            return
+        }
+        // @ts-ignore
+        scroller.scrollToElement(el, 300, 0, true)
+        setTimeout(() => {
+            this.onScroll = false
+        }, 320)
     }
 
     scrollTo = async (offset: number) => {
-        const manager = new TweenManager({
-            start: this.base.scrollTop,
-            end: offset,
-            duration: 100
-        })
-        while (manager.next()) {
-            await TweenManager.frame()
-            this.base.scrollTop = manager.currentValue
+        this.onScroll = true
+        const scroller = this._scroller.scroller
+        if (!scroller) {
+            this.onScroll = false
+            return
         }
+        // @ts-ignore
+        scroller.scrollTo(0, 100, 300)
+        console.log(this._scroller.scroller)
+        setTimeout(() => {
+            this.onScroll = false
+        }, 320)
     }
 
     componentDidMount() {
         this.autoScroll()
-        lockScroll(this.base)
+        // lockScroll(this.base)
     }
 
     componentDidUpdate() {
         this.autoScroll()
         this.autoPick()
+        this._scroller && this._scroller.refresh(30)
     }
 
     render() {
@@ -87,19 +107,21 @@ export default class RowPicker extends Component<RowPickerProps, any> {
         const enable = (item: Item) => item.disabled ? ' disabled ' : ''
         return (
             <div class={' picker ' + (this.props.className || '')} onTouchMove={this.onTouchMove}>
-                <ul className="picker-list" style={this.getStyle()}>
-                    {
-                        this.props.options.map((item: Item, index: number) => (
-                            <li class={'picker-item' + isPick(item) + enable(item)} onClick={this.pickItem(item)}>
-                                {
-                                    this.props.template ?
-                                        this.props.template(item) :
-                                        (<span>{item.label}</span>)
-                                }
-                            </li>
-                        ))
-                    }
-                </ul>
+                <Scroller ref={(c: any) => this._scroller = c}>
+                    <ul className="picker-list" style={this.getStyle()}>
+                        {
+                            this.props.options.map((item: Item, index: number) => (
+                                <li class={'picker-item' + isPick(item) + enable(item)} onClick={this.pickItem(item)}>
+                                    {
+                                        this.props.template ?
+                                            this.props.template(item) :
+                                            (<span>{item.label}</span>)
+                                    }
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </Scroller>
             </div>
         );
     }

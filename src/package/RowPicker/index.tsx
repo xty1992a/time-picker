@@ -11,6 +11,7 @@ export interface Item {
     label: string,
     value: any,
     disabled?: boolean,
+    data?: any,
     date?: dayjs.Dayjs
 }
 
@@ -25,6 +26,8 @@ interface RowPickerProps {
 
 
 export default class RowPicker extends Component<RowPickerProps, any> {
+    onScroll: boolean
+
     constructor(props: RowPickerProps) {
         super(props)
     }
@@ -34,6 +37,7 @@ export default class RowPicker extends Component<RowPickerProps, any> {
     }
 
     pickItem = (item: Item) => (e: Event) => {
+        if (this.onScroll) return
         if (item.disabled) return
         this.props.onPickItem(item)
     }
@@ -49,7 +53,12 @@ export default class RowPicker extends Component<RowPickerProps, any> {
         if (!pickedItem) return
         if (pickedItem.disabled) {
             const first = this.props.options.find(it => !it.disabled)
-            first && this.props.onPickItem(first)
+            if (first) {
+                this.props.onPickItem(first)
+            }
+            else {
+                this.props.onPickItem({value: '', label: ''})
+            }
         }
     }
 
@@ -57,10 +66,15 @@ export default class RowPicker extends Component<RowPickerProps, any> {
         // @types-ignore
         let offset = el.offsetLeft - SCREEN_WIDTH / 2 + el.clientWidth / 2
         // console.log('should scroll to ', el, el.offsetLeft, offset)
-        this.scrollTo(offset)
+        this.scrollTo(offset, true)
     }
 
-    scrollTo = async (offset: number) => {
+    scrollTo = async (offset: number, animate: boolean) => {
+        if (!animate) {
+            this.base && (this.base.scrollLeft = offset)
+            return
+        }
+        this.onScroll = true
         const manager = new TweenManager({
             start: this.base.scrollLeft,
             end: offset,
@@ -70,6 +84,7 @@ export default class RowPicker extends Component<RowPickerProps, any> {
             await TweenManager.frame()
             this.base.scrollLeft = manager.currentValue
         }
+        this.onScroll = false
     }
 
     componentDidMount() {

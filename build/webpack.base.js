@@ -30,6 +30,19 @@ const baseConfig = {
 		},
 		exclude: /(node_modules)/,
 	  },
+	  {
+		test: /(\.png)$/,
+		use: {
+		  loader: 'file-loader',
+		},
+	  },
+	  {
+		test: /\.svg$/,
+		loader: 'svg-sprite-loader',
+		options: {
+		  symbolId: 'icon-[name]',
+		},
+	  },
 	],
   },
   plugins: [],

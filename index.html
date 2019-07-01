@@ -3,9 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-  <script type="text/javascript" src="https://unpkg.com/eruda@1.5.5/eruda.js"></script>
+  <script src="https://cdn.bootcss.com/eruda/1.5.6/eruda.js"></script>
+  <script src="https://cdn.bootcss.com/babel-polyfill/7.4.4/polyfill.js"></script>
+  <!-- <script type="text/javascript" src="https://unpkg.com/@redbuck/toast@0.0.5/lib/toast.js"></script> -->
+  <!-- <link rel="stylesheet" href="https://unpkg.com/@redbuck/toast@0.0.5/lib/toast.css"> -->
+  <link rel="stylesheet" href="https://qyf1card1.h5.yunhuiyuan.cn/static/font/iconfont.css">
+  <script type="text/javascript" src="https://api.map.baidu.com/getscript?v=2.0&ak=AYaM1mMV2BSChZjk9MuPFgCw&s=1"></script>
+  <!-- <script type="text/javascript" src="./lib/shipping-block.js"></script> -->
+  <!-- <link rel="stylesheet" href="./lib/shipping-block.css"> -->
   <script type="text/javascript">
-	eruda.init()
+	if (!/localhost/.test(location.href)) {
+	  eruda && eruda.init()
+	}
   </script>
   <title>Title</title>
 </head>
@@ -21,23 +30,36 @@
     height: 2000px;
     background: repeating-linear-gradient(to bottom, #fff 0, #fff 10px, #000 10px, #000 20px);
   }
+
+  #shipping {
+    width: 560px;
+    height: 450px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
 </style>
 <body style="height: 1000px;">
-<button id="btn">按钮</button>
-<p>
-  <span>您选择的时间是: </span>
-  <span id="time"></span>
-</p>
-<button id="btn2">无时段</button>
-<p>
-  <span>您选择的时间是: </span>
-  <span id="time2"></span>
-</p>
+<section>
+  <input type="search">
 
-<button id="btn3">地址</button>
-<p>
-  <span>您选择的地址是: </span>
-  <span id="address"></span>
-</p>
+  <button id="btn">按钮</button>
+  <p>
+    <span>您选择的时间是: </span>
+    <span id="time"></span>
+  </p>
+  <button id="btn2">无时段</button>
+  <p>
+    <span>您选择的时间是: </span>
+    <span id="time2"></span>
+  </p>
+
+  <button id="btn3">地址</button>
+  <p>
+    <span>您选择的地址是: </span>
+    <span id="address"></span>
+  </p>
+
+  <div id="shipping"></div>
+</section>
 </body>
 </html>

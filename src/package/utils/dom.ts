@@ -47,16 +47,6 @@ function holdTop(top: number) {
     }
 }
 
-function stopEdgeElastic() {
-    // document.documentElement.addEventListener('touchmove')
-    document.body.addEventListener('touchmove', (e: Event) => {
-        console.log('body scroll')
-        e.preventDefault()
-    })
-}
-
-stopEdgeElastic()
-
 export const passiveFlag = (flag: boolean = false) => supportsPassive ? {passive: flag} : false
 
 function lockScroll1(el: HTMLElement) {
